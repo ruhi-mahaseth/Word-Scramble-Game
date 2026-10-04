@@ -34,3 +34,7 @@ word_Scrambber/
 │
 ├── main.html
 └── README.md
+
+## Screenshot
+
+![Word Scrambler Game](screenshots/game.png)
