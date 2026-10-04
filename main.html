@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Game</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        header{
+            width: 100%;
+            line-height: 15vh;
+            background-color: #20bfc6;
+            
+        }
+        h1{
+            font-family: 'Carter One', cursive;
+            text-align: center;
+            test-transform: uppercase;
+            color: white;
+            font-size: 1.8rem;
+            letter-spacing: 15px;
+            text-shadow: 
+    0 1px 0 #efefef,
+    0 2px 0 #efefef,
+    0 3px 0 #efefef,
+    0 4px 0 #efefef,
+    0 30px 5px rgba(0,0,0,.1);
+        }
+
+        section{
+            height: 85vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #7bed9f;
+        }
+        .GameArea{
+            width: 50%;
+            height: 400px;
+            padding: 20px 0;
+            background-color: #2ed573;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: 0 8px 6px -6px black;
+            
+        }
+        h3{
+            font-size: 1.5rem;
+            text-align: center;
+        }
+        input{
+            width: 40%;
+            padding:15px 0;
+            text-align: center;
+            border-radius: 25px;
+            border: none;
+            outline: none;
+            background-color: #dff9fb;
+            color: black;
+            margin: 1.5rem 0;
+            font-size: 1.1rem;
+        }
+        button{
+            font-size: 1rem;
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: #2f352f;
+            outline: none;
+            /* text-decoration: none; */
+            margin-top: 10px;
+            background-color: #20bfc6;
+            /* color: white; */
+            /* font-size: 1.1rem; */
+            cursor: pointer;
+        }
+        button.btn {
+          font-weight: 600;
+          padding: 1rem 2rem;
+          background: #20bfc6;
+          text-transform: uppercase;
+          transition-property: all;
+          transition-duration: 0.5s;
+          transition-timing-function: cubic-bezier(0.65,-0.25,0.25,1.95);
+  }
+        button.btn:hover,
+        button.btn:focus,
+        button.btn:active {
+           letter-spacing: 0.125rem;
+           word-spacing: 0.2rem;
+}
+        .hidden{
+            display: none;
+        }
+
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Guess the Word Game</h1>
+    </header>
+
+    <section>
+        <div class="GameArea">
+            <h3 class="msg"></h3>
+            <input type="text" class="hidden">
+            <button class="btn">Click here to Start</button>
+        </div>
+
+    </section>
+    <script>
+
+       const msg = document.querySelector(".msg");
+       const btn = document.querySelector(".btn");
+       const guess = document.querySelector("input");
+       let play = false;
+       let newWord = "";
+       let randWords = "";
+
+       let words=["apple", "banana", "orange", "mango", "pineapple", "strawberry", "watermelon", "grape",
+        "cherry", "blueberry","kiwi", "papaya", "peach", "pear", "plum", "raspberry", "coconut", "lemon", "lime", "apricot"];
+    
+
+       const createNewWord=() => {
+        let randomWord = Math.floor(Math.random() * words.length);
+        let newTempWord = words[randomWord];
+        // console.log(newTempWord.split(""));
+        return newTempWord;
+
+       }
+
+       const scambleWords =(arr) =>{
+        for(let i=arr.length-1; i>0; i--){
+            let j = Math.floor(Math.random() * (i+1));
+            // console.log(i);
+            // console.log(j);
+            let temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
+        return arr;
+
+       }
+       
+       btn.addEventListener("click", function(){
+        if(!play){
+            play = true;
+            btn.innerHTML = "Guess";
+            guess.classList.toggle('hidden');
+            newWord = createNewWord();
+            randWords= scambleWords(newWord.split("")).join("");
+            // console.log(randWords.join(""));
+            msg.innerHTML = `Guess the word: ${randWords}`;
+        }else{
+            let tempWord = guess.value;
+            if(tempWord === newWord){
+                play = false;
+                msg.innerHTML = (`Awesome! It's correct. It is ${newWord}`);
+                btn.innerHTML = "Start Again";
+                guess.classList.toggle('hidden');
+                guess.value = "";
+            }else{
+                msg.innerHTML = (`Sorry! It's incorrect. Please try again: ${randWords}`);
+                guess.value = "";
+            }
+        }
+
+       })
+
+    </script>
+
+</body>
+</html>
